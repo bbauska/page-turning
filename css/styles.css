@@ -28,7 +28,7 @@ body {
 .book-wrapper {
   position: relative;
   margin: 2% auto;
-  width: 670px;
+  width: 1440px;  /* 670px; */
 }
 
 .book-wrapper img {
