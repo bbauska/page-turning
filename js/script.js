@@ -1,7 +1,6 @@
 /* ./js/script.js for page-turning.bauska.org */
 
 (function($) {
-
 'use strict';
 
 var has3d,
@@ -32,7 +31,6 @@ var has3d,
   //   | tl * tr |
   // l | *     * | r
   //   | bl * br |
-
   corners = {
     backward: ['bl', 'tl'],
     forward: ['br', 'tr'],
@@ -78,7 +76,6 @@ var has3d,
 
   // Number of pages in the DOM, minimum value: 6
   pagesInDOM = 6,
-  
 
 turnMethods = {
 
@@ -183,21 +180,16 @@ turnMethods = {
       page = parseInt(currentPage[1], 10);
 
     if (page) {
-      
       if (page==lastPage)
         incPages = true;
       else if (page>lastPage)
         throw turnError('Page "'+page+'" cannot be inserted');
-
     } else {
-      
       page = lastPage;
       incPages = true;
-
     }
 
     if (page>=1 && page<=lastPage) {
-
       if (data.display=='double')
         className = (page%2) ? ' odd' : ' even';
       else
@@ -236,13 +228,11 @@ turnMethods = {
 
   // Adds a page
   _addPage: function(page) {
-    
     var data = this.data(),
       element = data.pageObjs[page];
 
     if (element)
       if (turnMethods._necessPage.call(this, page)) {
-
         if (!data.pageWrap[page]) {
 
           // Wrapper
@@ -256,25 +246,20 @@ turnMethods = {
           this.append(data.pageWrap[page]);
 
           if (!data.pagePlace[page]) {
-            
             data.pagePlace[page] = page;
             // Move `pageObjs[page]` to wrapper
             data.pageObjs[page].appendTo(data.pageWrap[page]);
-          
-         }
+          }
 
           // Set the size of the page
           var prop = turnMethods._pageSize.call(this, page, true);
           element.css({width: prop.width, height: prop.height});
           data.pageWrap[page].css(prop);
-
         }
-
         if (data.pagePlace[page] == page) {
 
          // If the page isn't in another place, create the flip effect
           turnMethods._makeFlip.call(this, page);
-
       }
         
       } else {
@@ -3117,19 +3102,17 @@ function hasHardPage() {
 // Request an animation
 window.requestAnim = (function() {
   return window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    window.oRequestAnimationFrame ||
-    window.msRequestAnimationFrame ||
-    function(callback) {
-      window.setTimeout(callback, 1000 / 60);
-    };
-
+  window.webkitRequestAnimationFrame ||
+  window.mozRequestAnimationFrame ||
+  window.oRequestAnimationFrame ||
+  window.msRequestAnimationFrame ||
+  function(callback) {
+    window.setTimeout(callback, 1000 / 60);
+  };
 })();
 
 // Extend $.fn
 $.extend($.fn, {
-
   flip: function() {
     return dec($(this[0]), flipMethods, arguments);
   },
@@ -3144,43 +3127,30 @@ $.extend($.fn, {
     
     if (origin)
       properties[vendor+'transform-origin'] = origin;
-    
     properties[vendor+'transform'] = transform;
-  
     return this.css(properties);
-
   },
 
   animatef: function(point) {
-
     var data = this.data();
-
     if (data.effect)
       data.effect.stop();
-
     if (point) {
-
       if (!point.to.length) point.to = [point.to];
       if (!point.from.length) point.from = [point.from];
-
       var diff = [],
         len = point.to.length,
         animating = true,
         that = this,
         time = (new Date()).getTime(),
         frame = function() {
-
           if (!data.effect || !animating)
             return;
-
           var v = [],
             timeDiff = Math.min(point.duration, (new Date()).getTime() - time);
-
           for (var i = 0; i < len; i++)
             v.push(data.effect.easing(1, timeDiff, point.from[i], diff[i], point.duration));
-
           point.frame((len==1) ? v[0] : v);
-
           if (timeDiff==point.duration) {
             delete data['effect'];
             that.data(data);
@@ -3190,10 +3160,8 @@ $.extend($.fn, {
             window.requestAnim(frame);
           }
         };
-
       for (var i = 0; i < len; i++)
         diff.push(point.to[i] - point.from[i]);
-
       data.effect = $.extend({
         stop: function() {
           animating = false;
@@ -3202,13 +3170,9 @@ $.extend($.fn, {
           return c * Math.sqrt(1 - (t=t/data-1)*t) + b;
         }
       }, point);
-
       this.data(data);
-
       frame();
-
     } else {
-      
       delete data['effect'];
 
     }
@@ -3225,19 +3189,19 @@ $.findPos = findPos;
 })(jQuery);
 
 $(window).ready(function() {
-	  $('.pages').turn({
-      duration: 1500,
-      width: 620,
-      height: 445,
-	  //  acceleration: true,
+  $('.pages').turn({
+    duration: 1500,
+    width: 620,
+    height: 445,
+    //  acceleration: true,
     //  display: 'single',
-     // autoCenter: true,
-     turnCorners: "bl,br",
-	    elevation: 300,
-	    when: {
-	      turned: function(e, page) {
-	        console.log('Current view: ', $(this).turn('view'));
-	      }
-	    }
-	  });
-	});
+    // autoCenter: true,
+    turnCorners: "bl,br",
+    elevation: 300,
+    when: {
+      turned: function(e, page) {
+        console.log('Current view: ', $(this).turn('view'));
+      }
+    }
+  });
+});
