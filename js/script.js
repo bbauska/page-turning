@@ -1,4 +1,4 @@
-/* ./js/script.js for page-turning.bauska.org */
+/* ./js/script.js for page-turn.bauska.org */
 
 (function($) {
 'use strict';
